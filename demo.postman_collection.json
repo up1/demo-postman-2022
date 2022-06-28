@@ -1,0 +1,165 @@
+{
+	"info": {
+		"_postman_id": "d6bf6a38-3760-4f5c-9da2-02e87c9d8b24",
+		"name": "demo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "1453931"
+	},
+	"item": [
+		{
+			"name": "Get data by id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"console.log(pm.response.headers);",
+							"console.log(pm.response.headers.get(\"X-Powered-By\"));",
+							"",
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"var schema = {",
+							"  \"type\": \"object\",",
+							"  \"properties\": {",
+							"    \"username\": { \"type\": \"string\" },",
+							"    \"id\": { \"type\": \"number\" },",
+							"  },",
+							"  \"required\": [",
+							"    \"id\"",
+							"  ]",
+							"};",
+							"",
+							"var data = pm.response.json();",
+							"",
+							"pm.test('Schema is valid', function () {",
+							"",
+							"    console.log(tv4.validateMultiple(data, schema));",
+							"",
+							"    pm.expect(tv4.validate(data, schema)).to.be.true;",
+							"    pm.expect(tv4.validateResult(data, schema).valid).to.be.true;",
+							"});",
+							"",
+							"",
+							"",
+							"",
+							"pm.test(\"Your test name\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    var expectedId = pm.variables.get(\"USER_ID\");",
+							"        ",
+							"    pm.expect(expectedId).to.eql(jsonData.id);",
+							"    // pm.expect('Bret').to.eql(jsonData.username);",
+							"    // pm.expect('92998-3874').to.eql(jsonData.address.zipcode);",
+							"});",
+							"",
+							"",
+							"",
+							"",
+							"",
+							"",
+							"",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 1 second\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+							"});",
+							"",
+							"",
+							"pm.collectionVariables.set(\"USER_EMAIL\", pm.response.json().email);",
+							"",
+							"",
+							"",
+							"",
+							"",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://jsonplaceholder.typicode.com/users/{{USER_ID}}",
+					"protocol": "https",
+					"host": [
+						"jsonplaceholder",
+						"typicode",
+						"com"
+					],
+					"path": [
+						"users",
+						"{{USER_ID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all users",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Your test name\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(10).to.eql(jsonData.length);",
+							"     pm.expect('Bret').to.eql(jsonData[0].username);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "xyz",
+						"value": "{{USER_EMAIL}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://jsonplaceholder.typicode.com/users",
+					"protocol": "https",
+					"host": [
+						"jsonplaceholder",
+						"typicode",
+						"com"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "USER_EMAIL",
+			"value": ""
+		}
+	]
+}
