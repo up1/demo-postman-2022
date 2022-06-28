@@ -6,3 +6,20 @@
       headers:
          content-type: application/json
       file: user_1.json
+- request:
+    url: /users/2
+    method: GET
+  response:
+    - status: 200
+      headers:
+         content-type: application/json
+      file: user_2_404.json
+- request:
+    url: /users/4
+    method: GET
+  response:
+    - status: 200
+      latency: 5000
+      headers:
+         content-type: application/json
+      file: user_4.json
